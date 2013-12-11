@@ -12,10 +12,13 @@ current_time = Time.now
 @blog_title = CONFIG['blog_title']
 @root = CONFIG['root_dir']
 @template = "<center>Title: 
+
 <br>Date: **#{current_time}**
 </center>"
 options = {}
 
+puts @editor
+puts ENV['EDITOR']
 OptionParser.new do |opts|
   opts.banner = "Usage: blog.rb [options]"
 
@@ -45,16 +48,12 @@ opts.on("-p", "Parse") do |v|
     FileUtils.touch(@index)
     File.open(@index, 'a') { |file| file.write("<center><a href=\"#{post_link}\">#{post_link}</a></center>") }
    end
-  end
- end
-
- opts.on("-e", "Edit file") do |v|
+   end
+   end
+  opts.on("-e", "Edit file") do |v|
     options[:verbose] = v
     @filename = ARGV.to_s
     @filename = @filename.gsub("[","").gsub("]","").gsub('"',"")
-    FileUtils.touch("#{@pdir}/#{@filename}")
-    File.open("#{@pdir}/#{@filename}", 'w') { |file| file.write(@template) }
- end
-
-
+    system( "$VISUAL #{@pdir}/#{@filename}" )
+  end
 end.parse!
