@@ -1,0 +1,5 @@
+posts_dir: posts
+output_dir: /var/www/blog/posts
+index_page: /var/www/blog/index.html
+blog_title: tsf_blog
+root_dir: /var/www/blog/
