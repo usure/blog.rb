@@ -20,8 +20,8 @@ setup
 first_post
 =======
 ```shell
-$ ./blog.rb -n post_name (this will create a template in the posts/ directory)
-$ ./blog.rb -e post_name (this will open up the post in your favorite editor.($EDITOR))
-$ ./blog -p will parse all of the posts and move them to the output directory.
+$ ./blog.rb -n post_name #this will create a template in the posts/ directory
+$ ./blog.rb -e post_name #this will open up the post in your favorite editor.($EDITOR)
+$ ./blog -p #will parse all of the posts and move them to the output directory.
 ```
 
