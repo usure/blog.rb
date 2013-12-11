@@ -13,12 +13,10 @@ current_time = Time.now
 @root = CONFIG['root_dir']
 @template = "<center>Title: 
 
-<br>Date: **#{current_time}**
+Date: **#{current_time}**
 </center>"
 options = {}
 
-puts @editor
-puts ENV['EDITOR']
 OptionParser.new do |opts|
   opts.banner = "Usage: blog.rb [options]"
 
@@ -37,17 +35,14 @@ opts.on("-p", "Parse") do |v|
     markdown = Redcarpet.new(text)
     new = post_file.gsub("posts/","")
     File.open("#{@output}/#{new}.html", 'w') {|f| f.write(markdown.to_html) }  
+    File.open("#{@output}/#{new}.html", 'a') { |f| f.write("<center><a href=\"../\">home</a></center>") }
+
    end
+   FileUtils.rm("#{@index}")
+   File.open(@index, 'w+') { |file| file.write("<center><h1>#{@blog_title}</h1></center>") }
    Dir.glob("#{@output}/*") do |post_link|
     post_link = post_link.gsub("#{@root}","")
-    if File.exist?(@index) == true
-    File.open(@index, 'w') {|file| file.truncate(0) }
-    File.open(@index, 'a') { |file| file.write("<center><h1>#{@blog_title}</h1></center>") }
-    File.open(@index, 'a') { |file| file.write("<center><a href=\"#{post_link}\">#{post_link}</a></center>") }
-    else
-    FileUtils.touch(@index)
-    File.open(@index, 'a') { |file| file.write("<center><a href=\"#{post_link}\">#{post_link}</a></center>") }
-   end
+    File.open(@index, 'a+') { |file| file.write("<center><a href=\"#{post_link}\">#{post_link}</a></center>") }
    end
    end
   opts.on("-e", "Edit file") do |v|
