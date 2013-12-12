@@ -11,7 +11,9 @@ current_time = Time.now
 @index = CONFIG['index_page']
 @blog_title = CONFIG['blog_title']
 @root = CONFIG['root_dir']
-@template = "<center>Title: 
+@template = "<center>
+Title Here
+============= 
 
 Date: **#{current_time}**
 </center>"
@@ -33,17 +35,18 @@ opts.on("-p", "Parse") do |v|
     Dir.glob("#{@pdir}/*") do |post_file|
     text = File.read(post_file)
     markdown = Redcarpet.new(text)
-    new = post_file.gsub("posts/","")
-    File.open("#{@output}/#{new}.html", 'w') {|f| f.write(markdown.to_html) }  
-    File.open("#{@output}/#{new}.html", 'a') { |f| f.write("<center><a href=\"../\">home</a></center>") }
-
+    @new = post_file.gsub("posts/","")
+    File.open("#{@output}/#{@new}.html", 'w') {|f| f.write(markdown.to_html) }  
+    File.open("#{@output}/#{@new}.html", 'a') { |f| f.write("<center><a href=\"../\">home</a></center>") } 
    end
+   end
+
    FileUtils.rm("#{@index}")
    File.open(@index, 'w+') { |file| file.write("<center><h1>#{@blog_title}</h1></center>") }
    Dir.glob("#{@output}/*") do |post_link|
     post_link = post_link.gsub("#{@root}","")
-    File.open(@index, 'a+') { |file| file.write("<center><a href=\"#{post_link}\">#{post_link}</a></center>") }
-   end
+    File.open(@index, 'a+') { |file| file.write("
+<center><a href=\"#{post_link}\">#{post_link}</a></center>") }
    end
   opts.on("-e", "Edit file") do |v|
     options[:verbose] = v
